@@ -1,0 +1,64 @@
+{
+    "name": "forth",
+    "displayName": "FORTH script",
+    "version": "0.0.1",
+    "publisher": "dponyatov",
+    "author": {
+        "name": "Dmitry Ponyatov",
+        "email": "dponyatov@gmail.com"
+    },
+    "categories": [
+        "Programming Languages",
+        "Debuggers",
+        "Notebooks",
+        "Snippets"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/ponyatov/legas/tree/dev/vscode"
+    },
+    "homepage": "https://github.com/ponyatov/legas",
+    "icon": "logo.png",
+    "engines": {
+        "vscode": "^1.50.0"
+    },
+    "activationEvents": [
+        "onCommand:forth.hello",
+        "onStartupFinished",
+        "onLanguage:forth"
+    ],
+    "main": "./extension.js",
+    "contributes": {
+        "commands": [
+            {
+                "command": "forth.hello",
+                "title": "forth: Hello"
+            }
+        ],
+        "languages": [
+            {
+                "id": "forth",
+                "aliases": [
+                    "forth"
+                ],
+                "extensions": [
+                    ".ini", ".f"
+                ],
+                "configuration": "./forth.configuration.json"
+            }
+        ],
+        "grammars": [
+            {
+                "language": "forth",
+                "scopeName": "script.forth",
+                "path": "./forth.tmLanguage.json"
+            }
+        ],
+        "snippets": [
+            {
+                "language": "forth",
+                "path": "./snippets.json"
+            }
+        ]
+    }
+}

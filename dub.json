@@ -1,5 +1,5 @@
 {
-    "name":          "CAD",
+    "name":          "cad",
     "description":   "CAD in D language",
     "homepage":      "https://github.com/ponyatov/CAD",
     "authors":      ["Dmitry Ponyatov <dponyatov@gmail.com>"],
@@ -7,9 +7,7 @@
     "license":       "MIT",
     "targetType":    "executable",
     "targetPath":    "bin",
-    "targetName":    "D",
-    "dflags-dmd":   ["-od=tmp"],
-    "subPackages":  ["player"],
+    "targetName":    "CAD",
     "dependencies": {
         "x11d": "~>1.0.23"
     }

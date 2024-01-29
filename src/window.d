@@ -15,6 +15,8 @@ import x11.X;
 
 class Win {
     Window window; ///< X11 hwnd
+    int screen;
+    Window root; ///< X11 root window for current @ref screen
     Win parent; ///< parent window in GUI tree
     string title; ///< window title
     short width, height; ///< window size
@@ -27,10 +29,7 @@ class Win {
     this(Win parent = null, string title = null, short width = config.Win.width,
             short height = config.Win.height, Resize resize = Resize.normal,
             Type type = Type.normal, bool hidden = false) {
-        if (display is null) {
-            display = XOpenDisplay(null);
-            assert(display !is null);
-        }
+
         this.parent = parent;
         this.title = title is null ? this.toString : title;
         this.width = width;
@@ -38,6 +37,24 @@ class Win {
         this.resize = resize;
         this.type = type;
         this.hidden = hidden;
+
+        if (display is null) {
+            display = XOpenDisplay(null);
+            assert(display !is null);
+        }
+        screen = DefaultScreen(display);
+        root = RootWindow(display, screen);
+        window = XCreateSimpleWindow(display, root, 0, 0,
+                width, height, config.Win.border,
+                BlackPixel(display, screen), WhitePixel(display, screen));
+        if (!hidden)
+            show();
+    }
+
+    ~this() {
+        hide();
+        XDestroyWindow(display, window);
+        // if (!ref) XCloseDisplay(dpy);
     }
 
     override string toString() const @safe pure {
@@ -46,14 +63,19 @@ class Win {
 
     void loop() {
         writeln(this);
+        XEvent event;
+        while (XNextEvent(display, &event)) {
+        }
     }
 
     void hide() {
         hidden = true;
+        XUnmapWindow(display, window);
     }
 
     void show() {
         hidden = false;
+        XMapWindow(display, window);
     }
 }
 

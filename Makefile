@@ -53,7 +53,7 @@ $(REF)/%/README.md: $(GZ)/%.tar.gz
 doc:
 
 # install
-.PHONY: install update gz
+.PHONY: install update gz ref
 install: doc gz
 	$(MAKE) update
 	dub build dfmt
@@ -66,6 +66,14 @@ $(DC) $(DUB): $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb
 	sudo dpkg -i $< && sudo touch $(DC) $(DUB)
 $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb:
 	$(CURL) $@ https://downloads.dlang.org/releases/2.x/$(D_VER)/dmd_$(D_VER)-0_amd64.deb
+
+.PHONY: ref
+ref: ref/DQuick/README.md ref/dlangui/README.md
+
+ref/DQuick/README.md:
+	git clone -o gh --depth 1 https://github.com/D-Quick/DQuick.git ref/DQuick &
+ref/dlangui/README.md:
+	git clone -o gh --depth 1 https://github.com/buggins/dlangui.git ref/dlangui &
 
 # merge
 MERGE += README.md Makefile apt.txt LICENSE

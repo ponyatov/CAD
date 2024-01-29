@@ -1,17 +1,13 @@
 {
     "multiCommand.commands": [
         { "command": "multiCommand.f11",
-            "sequence": [
-                "workbench.action.files.saveAll",
+            "sequence": [ "workbench.action.files.saveAll",
                 { "command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; LANG=C make format \u000D"}}]
-        },
+                    "args": {"text": "\u000D clear ; LANG=C make format \u000D"}}]},
         { "command": "multiCommand.f12",
-            "sequence": [
-                "workbench.action.files.saveAll",
+            "sequence": [ "workbench.action.files.saveAll",
                 { "command": "workbench.action.terminal.sendSequence",
-                    "args": {"text": "\u000D clear ; LANG=C make all \u000D"}}]
-        }
+                    "args": {"text": "\u000D clear ; LANG=C make all \u000D"}}]}
     ],
 
     // files
@@ -23,35 +19,36 @@
         "docs/**": true
     },
     "files.associations": {
-        "*.ini": "forth"
-    },        
+    },
 
     // editor
     "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "editor.detectIndentation": false,
     "editor.rulers": [80],
     "workbench.tree.indent": 24,
     "explorer.autoReveal": false,
     "files.insertFinalNewline": true,
     "git.enabled": false,
 
-    // clang-format
-    "clang-format.executable":     "clang-format",
-    "clang-format.fallbackStyle":  "Google",
-    "clang-format.style":          "file",
-
     // C++
-    "[cpp]": {
+    "[c,cpp]": {
         "editor.defaultFormatter": "xaver.clang-format",
         "editor.formatOnSave":     true
     },
-    "C_Cpp.intelliSenseEngine": "Tag Parser",
-    // cmake
-    "cmake.buildDirectory":  "${workspaceFolder}/tmp/${workspaceFolderBasename}.vs",
-    "cmake.sourceDirectory": "${workspaceFolder}",
-    "cmake.configureArgs": [ "-DAPP=${workspaceFolderBasename}" ],
-    "cmake.debugConfig": {
-        "args": [
-            "${workspaceFolder}/lib/${workspaceFolderBasename}.ini"
-        ]
-    }
+    "C_Cpp.intelliSenseEngine":    "Tag Parser",
+
+    // clang-format
+    "clang-format.executable":    "clang-format",
+    "clang-format.fallbackStyle": "Google",
+    "clang-format.style":         "file",
+
+    // D
+    "d.projectImportPaths": [
+        "${userHome}/D/ref",
+        "${userHome}/.dub/packages"
+    ],
+    "d.dubPath":     "/usr/bin/dub",
+    "d.dmdPath":     "/usr/bin/dmd",
+    "d.dubCompiler": "/usr/bin/dub"
 }

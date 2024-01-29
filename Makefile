@@ -7,76 +7,70 @@ REL     = $(shell git rev-parse --short=4 HEAD)
 BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
 CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
 
-# dirs
-CWD = $(CURDIR)
-BIN = $(CWD)/bin
-DOC = $(CWD)/doc
-SRC = $(CWD)/src
-TMP = $(CWD)/tmp
+# version
+D_VER = 2.106.1
+
+# dir
+CWD  = $(CURDIR)
+BIN  = $(CWD)/bin
+SRC  = $(CWD)/src
+TMP  = $(CWD)/tmp
+REF  = $(CWD)/ref
+GZ   = $(HOME)/gz
 
 # tool
-CURL   = curl -L -o
-CF     = clang-format
+CURL = curl -L -o
+CF   = clang-format
+DC   = /usr/bin/dmd
+DUB  = /usr/bin/dub
+RUN  = $(DUB) run   --compiler=$(DC)
+BLD  = $(DUB) build --compiler=$(DC)
 
 # src
-C  += src/$(MODULE).cpp
-H  += inc/$(MODULE).hpp
-S  += src/$(MODULE).lex src/$(MODULE).yacc
-S  += $(C) $(H) CMakeLists.txt
-# CP += tmp/$(MODULE).parser.cpp tmp/$(MODULE).lexer.cpp
-# HP += tmp/$(MODULE).parser.hpp
-F  += lib/$(MODULE).ini
-S  += $(F)
+D += $(wildcard src/*.d*)
 
 # all
 .PHONY: all
-all: bin/$(MODULE) $(F)
-	$^
+all: $(D)
+	$(RUN)
 
 # format
-.PHONY: format
-format: tmp/format_cpp
-tmp/format_cpp: $(C) $(H)
-	$(CF) -style=file -i $? && touch $@
+format: tmp/format_d
+tmp/format_d: $(D)
+	$(RUN) dfmt -- -i $? && touch $@
 
 # rule
-bin/$(MODULE): $(S) $(CP) $(CH) Makefile
-	cmake -S $(CWD) -B $(TMP)/$(MODULE) -DAPP=$(MODULE)
-	$(MAKE) -C $(TMP)/$(MODULE)
-tmp/$(MODULE).parser.cpp: src/$(MODULE).yacc
-	bison -o $@ $<
-tmp/$(MODULE).lexer.cpp: src/$(MODULE).lex
-	flex -o $@ $<
+bin/$(MODULE): $(D) Makefile
+	$(BLD)
+
+$(REF)/%/configure: $(GZ)/%.tar.gz
+	cd ref ; zcat $< | tar x && chmod +x $@ ; touch $@
+$(REF)/%/README.md: $(GZ)/%.tar.gz
+	cd ref ; zcat $< | tar x &&               touch $@
+
+# doc
+.PHONY: doc
+doc:
 
 # install
-.PHONY: install update updev
-install: $(OS)_install doc gz
+.PHONY: install update gz
+install: doc gz
 	$(MAKE) update
-update:  $(OS)_update
-updev:   update $(OS)_updev
-
-.PHONY: GNU_Linux_install GNU_Linux_update GNU_Linux_updev
-GNU_Linux_install:
-GNU_Linux_update:
-ifneq (,$(shell which apt))
+	dub build dfmt
+update:
 	sudo apt update
-	sudo apt install -u `cat apt.txt`
-endif
-# Debian 10
-ifeq ($(shell lsb_release -cs),buster)
-#	sudo apt install -t buster-backports kicad
-endif
-GNU_Linux_updev:
-	sudo apt install -yu `cat apt.dev`
+	sudo apt install -yu `cat apt.txt`
+gz: $(DC) $(DUB)
 
-.PHONY: vscode
-vscode: ~/.vscode/extensions/forth
-~/.vscode/extensions/forth:
-	ln -fs ~/CAD/.vscode $@
+$(DC) $(DUB): $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb
+	sudo dpkg -i $< && sudo touch $(DC) $(DUB)
+$(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb:
+	$(CURL) $@ https://downloads.dlang.org/releases/2.x/$(D_VER)/dmd_$(D_VER)-0_amd64.deb
 
 # merge
-MERGE += README.md Makefile .gitignore apt.txt apt.dev LICENSE $(S)
-MERGE += .vscode bin doc inc src tmp
+MERGE += README.md Makefile apt.txt LICENSE
+MERGE += .clang-format .doxygeb .editorconfig .gitignore
+MERGE += .vscode bin doc inc src tmp ref
 
 .PHONY: dev
 dev:
@@ -94,7 +88,7 @@ shadow:
 .PHONY: release
 release:
 	git tag $(NOW)-$(REL)
-	git push -v && git push -v --tags
+	git push -v --tags
 	$(MAKE) shadow
 
 .PHONY: zip

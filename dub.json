@@ -1,0 +1,16 @@
+{
+    "name":          "CAD",
+    "description":   "CAD in D language",
+    "homepage":      "https://github.com/ponyatov/CAD",
+    "authors":      ["Dmitry Ponyatov <dponyatov@gmail.com>"],
+    "copyright":     "Copyright © 2024, Dmitry Ponyatov <dponyatov@gmail.com>",
+    "license":       "MIT",
+    "targetType":    "executable",
+    "targetPath":    "bin",
+    "targetName":    "D",
+    "dflags-dmd":   ["-od=tmp"],
+    "subPackages":  ["player"],
+    "dependencies": {
+        "x11": "~>1.0.21"
+    }
+}

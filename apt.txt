@@ -1,1 +1,3 @@
-git make curl rsync
+git make curl
+code meld doxygen clang-format
+g++ build-essential

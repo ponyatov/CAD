@@ -11,12 +11,20 @@ import std.string;
 class Window {
     string title; ///< window title
     short width, height; ///< window size
+    Resize resize; ///< resizing mode
+    Type type;
+    bool hidden; ///< show window
 
-    this(string title, short width = config.Window.Width,
-            short height = config.Window.Height,) {
-        this.title = title;
+    this(Window parent = null, string title = null,
+            short width = config.Window.Width,
+            short height = config.Window.Height, Resize resize = Resize.normal,
+            Type type = Type.normal, bool hidden = false) {
+        this.title = title is null ? this.toString : title;
         this.width = width;
         this.height = height;
+        this.resize = resize;
+        this.type = type;
+        this.hidden = hidden;
     }
 
     override string toString() const @safe pure {
@@ -26,4 +34,30 @@ class Window {
     void loop() {
         writeln(this);
     }
+
+    void hide() {
+        hidden = true;
+    }
+
+    void show() {
+        hidden = false;
+    }
+}
+
+/// @ref Window resize mode
+enum Resize {
+    fixed,
+    normal,
+    fullscreen
+}
+
+enum Type {
+    normal, /// ordinary
+    undecorated, /// no title, border and controls
+    event, /// hidden dummy window for communication etc
+    dropdown, /// menu bar -like menu
+    popup, /// mouse/object -local popup menu
+    bubble, /// notification
+    dialog, /// system-wide dialog
+    toolbar, /// short-click menu
 }

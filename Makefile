@@ -68,7 +68,8 @@ $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb:
 	$(CURL) $@ https://downloads.dlang.org/releases/2.x/$(D_VER)/dmd_$(D_VER)-0_amd64.deb
 
 .PHONY: ref
-ref: ref/DQuick/README.md ref/dlangui/README.md ref/x11/README.md
+ref: ref/DQuick/README.md ref/dlangui/README.md \
+     ref/x11/README.md ref/arsd/simpledisplay.d
 
 ref/DQuick/README.md:
 	git clone -o gh --depth 1 https://github.com/D-Quick/DQuick.git ref/DQuick &
@@ -76,6 +77,8 @@ ref/dlangui/README.md:
 	git clone -o gh --depth 1 https://github.com/buggins/dlangui.git ref/dlangui &
 ref/x11/README.md:
 	git clone -o gh --depth 1 https://github.com/nomad-software/x11.git ref/x11 &
+ref/arsd/simpledisplay.d:
+	git clone -o gh --depth 1 https://github.com/adamdruppe/arsd.git ref/arsd &
 
 # merge
 MERGE += README.md Makefile apt.txt LICENSE

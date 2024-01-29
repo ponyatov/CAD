@@ -2,6 +2,8 @@ module window;
 
 import std.stdio;
 
+// uses https://wiki.dlang.org/Simpledisplay.d
+
 class Window {
     string title;
     this(string title) {

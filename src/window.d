@@ -9,6 +9,7 @@ import std.string;
 // https://github.com/ZILtoid1991/x11d/blob/master/test/app.d
 
 import X;
+import Xlib;
 
 // uses https://wiki.dlang.org/Simpledisplay.d
 
@@ -23,7 +24,7 @@ class Window {
     Type type;
     bool hidden; ///< show window
 
-    private static __gshared X.Display* display; ///< global X11 display
+    private static __gshared Xlib.Display* display; ///< global X11 display
 
     this(Window parent = null, string title = null, short width = config.Win.width,
             short height = config.Win.height, Resize resize = Resize.normal,
@@ -43,9 +44,9 @@ class Window {
         }
         screen = X.DefaultScreen(display);
         root = X.RootWindow(display, screen);
-        window = X.CreateSimpleWindow(display, root, 0, 0,
-                width, height, config.Win.border,
-                x.BlackPixel(display, screen), X.WhitePixel(display, screen));
+        window = X.CreateSimpleWindow(display, root, 0, 0, width, height,
+                config.Win.border, x.BlackPixel(display,
+                    screen), X.WhitePixel(display, screen));
         if (!hidden)
             show();
     }

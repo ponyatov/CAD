@@ -50,7 +50,13 @@ $(REF)/%/README.md: $(GZ)/%.tar.gz
 
 # doc
 .PHONY: doc
-doc:
+doc: doc/X\ Window\ System\ Protocol.pdf
+
+doc/%: $(HOME)/doc/X11/%
+	ln -fs "$<" "$@"
+
+$(HOME)/doc/X11/X\ Window\ System\ Protocol.pdf:
+	$(CURL) "$@" https://www.x.org/releases/X11R7.5/doc/x11proto/proto.pdf
 
 # install
 .PHONY: install update gz ref

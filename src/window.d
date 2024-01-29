@@ -17,7 +17,7 @@ class Window {
     X.Window window; ///< X11 hwnd
     int screen;
     X.Window root; ///< X11 root window for current @ref screen
-    Win parent; ///< parent window in GUI tree
+    Window parent; ///< parent window in GUI tree
     string title; ///< window title
     short width, height; ///< window size
     Resize resize; ///< resizing mode
@@ -39,21 +39,21 @@ class Window {
         this.hidden = hidden;
 
         if (display is null) {
-            display = X.OpenDisplay(null);
+            display = XOpenDisplay(null);
             assert(display !is null);
         }
-        screen = X.DefaultScreen(display);
-        root = X.RootWindow(display, screen);
-        window = X.CreateSimpleWindow(display, root, 0, 0, width, height,
-                config.Win.border, x.BlackPixel(display,
-                    screen), X.WhitePixel(display, screen));
+        screen = XDefaultScreen(display);
+        root = XRootWindow(display, screen);
+        window = XCreateSimpleWindow(display, root, 0, 0, width, height,
+                config.Win.border, XBlackPixel(display,
+                    screen), XWhitePixel(display, screen));
         if (!hidden)
             show();
     }
 
     ~this() {
         hide();
-        X.DestroyWindow(display, window);
+        XDestroyWindow(display, window);
         // if (!ref) XCloseDisplay(dpy);
     }
 
@@ -64,18 +64,18 @@ class Window {
     void loop() {
         writeln(this);
         XEvent event;
-        while (X.NextEvent(display, &event)) {
+        while (XNextEvent(display, &event)) {
         }
     }
 
     void hide() {
         hidden = true;
-        X.UnmapWindow(display, window);
+        XUnmapWindow(display, window);
     }
 
     void show() {
         hidden = false;
-        X.MapWindow(display, window);
+        XMapWindow(display, window);
     }
 }
 

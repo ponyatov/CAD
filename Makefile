@@ -28,6 +28,8 @@ BLD  = $(DUB) build --compiler=$(DC)
 
 # src
 D += $(wildcard src/*.d*)
+D += $(wildcard src/X/*.d*)
+D += $(wildcard src/X/extnsions/*.d*)
 
 # all
 .PHONY: all
@@ -96,7 +98,7 @@ ref/arsd/simpledisplay.d:
 
 .PHONY: meldX
 meldX:
-	meld src ref/x11/source/x11 ref/x11d/source/x11 &
+	meld src/X ref/x11/source/x11 ref/x11d/source/x11 &
 
 # merge
 MERGE += README.md Makefile apt.txt LICENSE

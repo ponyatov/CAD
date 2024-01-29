@@ -2,4 +2,5 @@
 bin/**
 tmp/**
 fw/**
+ref/**
 rc

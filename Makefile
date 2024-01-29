@@ -85,6 +85,10 @@ ref/x11d/README.md:
 ref/arsd/simpledisplay.d:
 	$(GITREF) https://github.com/adamdruppe/arsd.git ref/arsd &
 
+.PHONY: meldX
+meldX:
+	meld src ref/x11/source/x11 ref/x11d/source/x11 &
+
 # merge
 MERGE += README.md Makefile apt.txt LICENSE
 MERGE += .clang-format .doxygeb .editorconfig .gitignore

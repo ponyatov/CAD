@@ -1,6 +1,6 @@
 {
     "name":          "cad",
-    "description":   "CAD in D language",
+    "description":   "CAD/X in D language",
     "homepage":      "https://github.com/ponyatov/CAD",
     "authors":      ["Dmitry Ponyatov <dponyatov@gmail.com>"],
     "copyright":     "Copyright © 2024, Dmitry Ponyatov <dponyatov@gmail.com>",
@@ -8,7 +8,6 @@
     "targetType":    "executable",
     "targetPath":    "bin",
     "targetName":    "CAD",
-    "dependencies": {
-        "x11d": "~>1.0.23"
-    }
+    "dependencies": {},
+    "libs-linux":   ["X11"]
 }

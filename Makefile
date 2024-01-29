@@ -50,8 +50,11 @@ $(REF)/%/README.md: $(GZ)/%.tar.gz
 
 # doc
 .PHONY: doc
-doc: doc/X\ Window\ System\ Protocol.pdf
+doc: doc/X\ Window\ System\ Protocol.pdf \
+     doc/Александреску\ Язык\ D.pdf doc/Programming_in_D.pdf
 
+doc/%: $(HOME)/D/%
+	ln -fs "$<" "$@"
 doc/%: $(HOME)/doc/X11/%
 	ln -fs "$<" "$@"
 

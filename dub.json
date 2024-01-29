@@ -11,6 +11,6 @@
     "dflags-dmd":   ["-od=tmp"],
     "subPackages":  ["player"],
     "dependencies": {
-        "x11": "~>1.0.21"
+        "x11d": "~>1.0.23"
     }
 }

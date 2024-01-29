@@ -69,16 +69,21 @@ $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb:
 
 .PHONY: ref
 ref: ref/DQuick/README.md ref/dlangui/README.md \
-     ref/x11/README.md ref/arsd/simpledisplay.d
+     ref/x11/README.md ref/x11d/README.md \
+	 ref/arsd/simpledisplay.d
+
+GITREF = git clone -o gh --depth 1
 
 ref/DQuick/README.md:
-	git clone -o gh --depth 1 https://github.com/D-Quick/DQuick.git ref/DQuick &
+	$(GITREF) https://github.com/D-Quick/DQuick.git ref/DQuick &
 ref/dlangui/README.md:
-	git clone -o gh --depth 1 https://github.com/buggins/dlangui.git ref/dlangui &
+	$(GITREF) https://github.com/buggins/dlangui.git ref/dlangui &
 ref/x11/README.md:
-	git clone -o gh --depth 1 https://github.com/nomad-software/x11.git ref/x11 &
+	$(GITREF) https://github.com/nomad-software/x11.git ref/x11 &
+ref/x11d/README.md:
+	$(GITREF) https://github.com/ZILtoid1991/x11d.git ref/x11d &
 ref/arsd/simpledisplay.d:
-	git clone -o gh --depth 1 https://github.com/adamdruppe/arsd.git ref/arsd &
+	$(GITREF) https://github.com/adamdruppe/arsd.git ref/arsd &
 
 # merge
 MERGE += README.md Makefile apt.txt LICENSE

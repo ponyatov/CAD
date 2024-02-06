@@ -27,7 +27,11 @@ RUN  = $(DUB) run   --compiler=$(DC)
 BLD  = $(DUB) build --compiler=$(DC)
 
 # src
+C += $(wildcard src/*.c*)
+H += $(wildcard inc/*.h*)
 D += $(wildcard src/*.d*)
+D += $(wildcard src/X/*.d*)
+D += $(wildcard src/X/extensions/*.d*)
 
 # all
 .PHONY: all
@@ -50,7 +54,16 @@ $(REF)/%/README.md: $(GZ)/%.tar.gz
 
 # doc
 .PHONY: doc
-doc:
+doc: doc/X\ Window\ System\ Protocol.pdf \
+     doc/Александреску\ Язык\ D.pdf doc/Programming_in_D.pdf
+
+doc/%: $(HOME)/D/%
+	ln -fs "$<" "$@"
+doc/%: $(HOME)/doc/X11/%
+	ln -fs "$<" "$@"
+
+$(HOME)/doc/X11/X\ Window\ System\ Protocol.pdf:
+	$(CURL) "$@" https://www.x.org/releases/X11R7.5/doc/x11proto/proto.pdf
 
 # install
 .PHONY: install update gz ref
@@ -85,10 +98,14 @@ ref/x11d/README.md:
 ref/arsd/simpledisplay.d:
 	$(GITREF) https://github.com/adamdruppe/arsd.git ref/arsd &
 
+.PHONY: meldX
+meldX:
+	meld src/X ref/x11/source/x11 ref/x11d/source/x11 &
+
 # merge
-MERGE += README.md Makefile apt.txt LICENSE
-MERGE += .clang-format .doxygeb .editorconfig .gitignore
-MERGE += .vscode bin doc inc src tmp ref
+MERGE += Makefile README.md apt.txt LICENSE
+MERGE += .clang-format .editorconfig .doxygen .gitignore
+MERGE += .vscode bin doc lib inc src tmp ref
 
 .PHONY: dev
 dev:

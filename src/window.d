@@ -8,25 +8,25 @@ import std.string;
 
 // https://github.com/ZILtoid1991/x11d/blob/master/test/app.d
 
-import x11.Xlib;
-import x11.X;
+import X;
+import Xlib;
 
 // uses https://wiki.dlang.org/Simpledisplay.d
 
-class Win {
-    Window window; ///< X11 hwnd
+class Window {
+    X.Window window; ///< X11 hwnd
     int screen;
-    Window root; ///< X11 root window for current @ref screen
-    Win parent; ///< parent window in GUI tree
+    X.Window root; ///< X11 root window for current @ref screen
+    Window parent; ///< parent window in GUI tree
     string title; ///< window title
     short width, height; ///< window size
     Resize resize; ///< resizing mode
     Type type;
     bool hidden; ///< show window
 
-    private static __gshared Display* display; ///< global X11 display
+    private static __gshared Xlib.Display* display; ///< global X11 display
 
-    this(Win parent = null, string title = null, short width = config.Win.width,
+    this(Window parent = null, string title = null, short width = config.Win.width,
             short height = config.Win.height, Resize resize = Resize.normal,
             Type type = Type.normal, bool hidden = false) {
 
@@ -42,11 +42,11 @@ class Win {
             display = XOpenDisplay(null);
             assert(display !is null);
         }
-        screen = DefaultScreen(display);
-        root = RootWindow(display, screen);
-        window = XCreateSimpleWindow(display, root, 0, 0,
-                width, height, config.Win.border,
-                BlackPixel(display, screen), WhitePixel(display, screen));
+        screen = XDefaultScreen(display);
+        root = XRootWindow(display, screen);
+        window = XCreateSimpleWindow(display, root, 0, 0, width, height,
+                config.Win.border, XBlackPixel(display,
+                    screen), XWhitePixel(display, screen));
         if (!hidden)
             show();
     }

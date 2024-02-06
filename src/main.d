@@ -6,5 +6,5 @@ import window;
 
 void main(string[] args) {
     writeln(args);
-    (new Win(null, args[0])).loop();
+    (new Window(null, args[0])).loop();
 }

@@ -48,6 +48,10 @@
         "${userHome}/D/ref",
         "${userHome}/.dub/packages"
     ],
+    "dscanner.ignoredKeys": [
+        "dscanner.style.phobos_naming_convention",
+        "dscanner.unnecessary.duplicate_attribute"
+    ],
     "d.dubPath":     "/usr/bin/dub",
     "d.dmdPath":     "/usr/bin/dmd",
     "d.dubCompiler": "/usr/bin/dub"

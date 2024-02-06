@@ -1,3 +1,4 @@
 git make curl
 code meld doxygen clang-format
 g++ build-essential
+libx11-dev libx11-xcb-dev

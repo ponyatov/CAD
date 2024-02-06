@@ -30,8 +30,8 @@ BLD  = $(DUB) build --compiler=$(DC)
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
 D += $(wildcard src/*.d*)
-D += $(wildcard src/X/*.d*)
-D += $(wildcard src/X/extensions/*.d*)
+# D += $(wildcard src/X/*.d*)
+# D += $(wildcard src/X/extensions/*.d*)
 
 # all
 .PHONY: all

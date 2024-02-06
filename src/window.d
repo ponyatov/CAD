@@ -44,9 +44,9 @@ class Window {
         }
         screen = XDefaultScreen(display);
         root = XRootWindow(display, screen);
-        window = XCreateSimpleWindow(display, root, 0, 0, width, height,
-                config.Win.border, XBlackPixel(display,
-                    screen), XWhitePixel(display, screen));
+        window = XCreateSimpleWindow(display, root, 0, 0,
+                width, height, config.Win.border,
+                XBlackPixel(display, screen), XWhitePixel(display, screen));
         if (!hidden)
             show();
     }

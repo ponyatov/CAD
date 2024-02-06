@@ -1,0 +1,389 @@
+struct XKeyEvent{
+    int type;                                           /* of event                                                     */
+    c_ulong  serial;                                    /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;                                      /* "event" window it is reported relative to                    */
+    Window root;                                        /* root window that the event occurred on                       */
+    Window subwindow;                                   /* child window                                                 */
+    Time time;                                          /* milliseconds                                                 */
+    int x, y;                                           /* pointer x, y coordinates in event window                     */
+    int x_root, y_root;                                 /* coordinates relative to root                                 */
+    uint state;                                         /* key or button mask                                           */
+    uint keycode;                                       /* detail                                                       */
+    Bool same_screen;                                   /* same screen flag                                             */
+}
+
+alias XKeyEvent XKeyPressedEvent;
+alias XKeyEvent XKeyReleasedEvent;
+
+struct XButtonEvent{
+    int type;                                           /* of event                                                     */
+    c_ulong  serial;                                    /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;                                      /* "event" window it is reported relative to                    */
+    Window root;                                        /* root window that the event occurred on                       */
+    Window subwindow;                                   /* child window                                                 */
+    Time time;                                          /* milliseconds                                                 */
+    int x, y;                                           /* pointer x, y coordinates in event window                     */
+    int x_root, y_root;                                 /* coordinates relative to root                                 */
+    uint state;                                         /* key or button mask                                           */
+    uint button;                                        /* detail                                                       */
+    Bool same_screen;                                   /* same screen flag                                             */
+}
+alias XButtonEvent XButtonPressedEvent;
+alias XButtonEvent XButtonReleasedEvent;
+
+struct XMotionEvent{
+    int type;                                           /* of event                                                     */
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;                                      /* "event" window reported relative to                          */
+    Window root;                                        /* root window that the event occurred on                       */
+    Window subwindow;                                   /* child window                                                 */
+    Time time;                                          /* milliseconds                                                 */
+    int x, y;                                           /* pointer x, y coordinates in event window                     */
+    int x_root, y_root;                                 /* coordinates relative to root                                 */
+    uint state;                                         /* key or button mask                                           */
+    char is_hint;                                       /* detail                                                       */
+    Bool same_screen;                                   /* same screen flag                                             */
+}
+alias XMotionEvent XPointerMovedEvent;
+
+struct XCrossingEvent{
+    int type;                                           /* of event                                                     */
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;                                      /* "event" window reported relative to                          */
+    Window root;                                        /* root window that the event occurred on                       */
+    Window subwindow;                                   /* child window                                                 */
+    Time time;                                          /* milliseconds                                                 */
+    int x, y;                                           /* pointer x, y coordinates in event window                     */
+    int x_root, y_root;                                 /* coordinates relative to root                                 */
+    int mode;                                           /* NotifyNormal, NotifyGrab, NotifyUngrab                       */
+    int detail;
+    /*
+     * NotifyAncestor, NotifyVirtual, NotifyInferior,
+     * NotifyNonlinear,NotifyNonlinearVirtual
+     */
+    Bool same_screen;                                   /* same screen flag                                             */
+    Bool focus;                                         /* boolean focus                                                */
+    uint state;                                         /* key or button mask                                           */
+}
+alias XCrossingEvent XEnterWindowEvent;
+alias XCrossingEvent XLeaveWindowEvent;
+
+struct XFocusChangeEvent{
+    int type;                                           /* FocusIn or FocusOut                                          */
+    c_ulong serial;                                     /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;                                      /* window of event                                              */
+    int mode;                                           /* NotifyNormal, NotifyWhileGrabbed,*/
+                                                        /* NotifyGrab, NotifyUngrab */
+    int detail;
+    /*
+     * NotifyAncestor, NotifyVirtual, NotifyInferior,
+     * NotifyNonlinear,NotifyNonlinearVirtual, NotifyPointer,
+     * NotifyPointerRoot, NotifyDetailNone
+     */
+}
+alias  XFocusChangeEvent XFocusInEvent;
+alias  XFocusChangeEvent XFocusOutEvent;
+
+struct XExposeEvent{
+    int type;
+    c_ulong serial;                                     /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    int x, y;
+    int width, height;
+    int count;                                          /* if non-zero, at least this many more                         */
+}
+
+struct XGraphicsExposeEvent{
+    int type;
+    c_ulong serial;                                     /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Drawable drawable;
+    int x, y;
+    int width, height;
+    int count;                                          /* if non-zero, at least this many more                         */
+    int major_code;                                     /* core is CopyArea or CopyPlane                                */
+    int minor_code;                                     /* not defined in the core                                      */
+}
+
+struct XNoExposeEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Drawable drawable;
+    int major_code;                                     /* core is CopyArea or CopyPlane                                */
+    int minor_code;                                     /* not defined in the core                                      */
+}
+
+struct XVisibilityEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    int state;                                          /* Visibility state                                             */
+}
+
+struct XCreateWindowEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window parent;                                      /* parent of the window                                         */
+    Window window;                                      /* window id of window created                                  */
+    int x, y;                                           /* window location                                              */
+    int width, height;                                  /* size of window                                               */
+    int border_width;                                   /* border width                                                 */
+    Bool override_redirect;                             /* creation should be overridden                                */
+}
+
+struct XDestroyWindowEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+}
+
+struct XUnmapEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+    Bool from_configure;
+}
+
+struct XMapEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+    Bool override_redirect;                             /* boolean, is override set...                                  */
+}
+
+struct XMapRequestEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window parent;
+    Window window;
+}
+
+struct XReparentEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+    Window parent;
+    int x, y;
+    Bool override_redirect;
+}
+
+struct XConfigureEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+    int x, y;
+    int width, height;
+    int border_width;
+    Window above;
+    Bool override_redirect;
+}
+
+struct XGravityEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+    int x, y;
+}
+
+struct XResizeRequestEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    int width, height;
+}
+
+struct XConfigureRequestEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window parent;
+    Window window;
+    int x, y;
+    int width, height;
+    int border_width;
+    Window above;
+    int detail;                                         /* Above, Below, TopIf, BottomIf, Opposite                      */
+    c_ulong value_mask;
+}
+
+struct XCirculateEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window event;
+    Window window;
+    int place;                                          /* PlaceOnTop, PlaceOnBottom                                    */
+}
+
+struct XCirculateRequestEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window parent;
+    Window window;
+    int place;                                          /* PlaceOnTop, PlaceOnBottom                                    */
+}
+
+
+struct XPropertyEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    Atom atom;
+    Time time;
+    int state;                                          /* NewValue, Deleted                                            */
+}
+
+
+struct XSelectionClearEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    Atom selection;
+    Time time;
+}
+
+struct XSelectionRequestEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window owner;
+    Window requestor;
+    Atom selection;
+    Atom target;
+    Atom property;
+    Time time;
+}
+
+struct XSelectionEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window requestor;
+    Atom selection;
+    Atom target;
+    Atom property;                                      /* ATOM or None                                                 */
+    Time time;
+}
+
+struct XColormapEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    Colormap colormap;                                  /* COLORMAP or None                                             */
+    Bool c_new;                                         /* C++                                                          */
+    int state;                                          /* ColormapInstalled, ColormapUninstalled                       */
+}
+
+struct XClientMessageEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    Atom message_type;
+    int format;
+    union _data  {
+                    char[20] b;
+                    short[10] s;
+                    c_long[5] l;
+                }
+	_data data;
+}
+
+struct XMappingEvent{
+    int type;
+    c_ulong serial;                                       /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;                                      /* unused                                                       */
+    int request;                                        /* one of MappingModifier, MappingKeyboard, MappingPointer      */
+    int first_keycode;                                  /* first keycode                                                */
+    int count;                                          /* defines range of change w. first_keycode                     */
+}
+
+struct XKeymapEvent{
+    int type;
+    c_ulong serial;                                     /* # of last request processed by server                        */
+    Bool send_event;                                    /* true if this came from a SendEvent request                   */
+    Display* display;                                   /* Display the event was read from                              */
+    Window window;
+    char[32] key_vector;
+}
+
+/***************************************************************
+ *
+ * GenericEvent.  This event is the standard event for all newer extensions.
+ */
+
+struct XGenericEvent {
+    int            type;                                /* of event. Always GenericEvent                                */
+    c_ulong        serial;                              /* # of last request processed                                  */
+    Bool           send_event;                          /* true if from SendEvent request                               */
+    Display*       display;                             /* Display the event was read from                              */
+    int            extension;                           /* major opcode of extension that caused the event              */
+    int            evtype;                              /* actual event type.                                           */
+}
+
+struct XGenericEventCookie{
+    int            type;                                /* of event. Always GenericEvent                                */
+    c_ulong        serial;                              /* # of last request processed                                  */
+    Bool           send_event;                          /* true if from SendEvent request                               */
+    Display*       display;                             /* Display the event was read from                              */
+    int            extension;                           /* major opcode of extension that caused the event              */
+    int            evtype;                              /* actual event type.                                           */
+    uint           cookie;
+    void*          data;
+}

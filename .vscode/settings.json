@@ -55,7 +55,8 @@
     "C_Cpp.intelliSenseEngine":    "Tag Parser",
 
     // Rust
-    "rust-analyzer.checkOnSave": true,
+    "rust-analyzer.check.workspace": false,
+    "rust-analyzer.checkOnSave": false,
     "rust-analyzer.check.invocationStrategy": "once",
     "[rust]": {
         "editor.defaultFormatter": "rust-lang.rust-analyzer",

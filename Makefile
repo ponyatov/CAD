@@ -19,7 +19,7 @@ GZ    = $(HOME)/gz
 
 # tool
 CURL   = curl -L -o
-CF     = clang-format
+CF     = clang-format -style=file -i
 RUSTUP = $(CAR)/rustup
 CARGO  = $(CAR)/cargo
 GITREF = git clone --depth 1
@@ -30,6 +30,7 @@ R += $(wildcard config/src/*.rs)
 R += $(wildcard server/src/*.rs)
 C += $(wildcard src/*.c*)
 H += $(wildcard inc/*.h*)
+J += $(wildcard server/static/*.js)
 
 # all
 .PHONY: run all
@@ -44,9 +45,11 @@ server: $(R)
 
 # format
 .PHONY: format
-format: tmp/format_rs
+format: tmp/format_rs tmp/format_js
 tmp/format_rs: $(R)
-	$(CARGO) check && $(CARGO) fmt && touch $@
+	$(CARGO) check --workspace && $(CARGO) fmt && touch $@
+tmp/format_js: $(J)
+	$(CF) $? && touch $@
 
 # rule
 

@@ -1,0 +1,28 @@
+[package]
+name        = "cad"
+description = "NAND Flash Translation Layer"
+authors     = ["Dmitry Ponyatov <dponyatov@gmail.com>"]
+repository  = "https://github.com/dponyatov/FTL"
+license     = "MIT"
+keywords    = ["cad"]
+categories  = ["mobile", "cad"]
+version     = "0.0.1"
+edition     = "2021"
+
+[dependencies]
+
+[dev-dependencies]
+
+[target.'cfg(unix)'.dependencies]
+fuse = "0.3.1"
+pcap = "2.2.0"
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wasm-bindgen = "0.2"
+js-sys = "0.3"
+web-sys = "0.3"
+
+[features]
+default = ["gui"]
+gui = []
+

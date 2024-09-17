@@ -65,46 +65,29 @@ doxy: $(R)
 					--workspace --target-dir docs
 
 # install
-.PHONY: install update gz ref
-install: doc gz
-	$(MAKE) update
-	dub build dfmt
-update:
+.PHONY: install update ref gz
+install: doc ref gz $(RUSTUP)
+	$(MAKE) rust update
+update: $(RUSTUP)
 	sudo apt update
-	sudo apt install -yu `cat apt.txt`
-gz: $(DC) $(DUB)
+	sudo apt install -uy `cat apt.txt`
+	$(RUSTUP) self update ; $(RUSTUP) update stable
+ref:
+gz:
 
-$(DC) $(DUB): $(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb
-	sudo dpkg -i $< && sudo touch $(DC) $(DUB)
-$(HOME)/distr/SDK/dmd_$(D_VER)_amd64.deb:
-	$(CURL) $@ https://downloads.dlang.org/releases/2.x/$(D_VER)/dmd_$(D_VER)-0_amd64.deb
-
-.PHONY: ref
-ref: ref/DQuick/README.md ref/dlangui/README.md \
-     ref/x11/README.md ref/x11d/README.md \
-	 ref/arsd/simpledisplay.d
-
-GITREF = git clone -o gh --depth 1
-
-ref/DQuick/README.md:
-	$(GITREF) https://github.com/D-Quick/DQuick.git ref/DQuick &
-ref/dlangui/README.md:
-	$(GITREF) https://github.com/buggins/dlangui.git ref/dlangui &
-ref/x11/README.md:
-	$(GITREF) https://github.com/nomad-software/x11.git ref/x11 &
-ref/x11d/README.md:
-	$(GITREF) https://github.com/ZILtoid1991/x11d.git ref/x11d &
-ref/arsd/simpledisplay.d:
-	$(GITREF) https://github.com/adamdruppe/arsd.git ref/arsd &
-
-.PHONY: meldX
-meldX:
-	meld src/X ref/x11/source/x11 ref/x11d/source/x11 &
+.PHONY: rust
+rust: $(RUSTUP)
+	$(RUSTUP) component add rustfmt
+	$(CARGO)  install wasm-bindgen-cli
+	$(RUSTUP) target add $(TARGET)
+$(RUSTUP):
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
 # merge
 MERGE += Makefile README.md apt.txt LICENSE
-MERGE += .clang-format .editorconfig .doxygen .gitignore
-MERGE += .vscode bin doc lib inc src tmp ref
+MERGE += .clang-format .doxygen .gitignore
+MERGE += .vscode bin doc img lib inc src tmp ref
+MERGE += .cargo Cargo.* *.toml
 
 .PHONY: dev
 dev:
@@ -123,7 +106,7 @@ shadow:
 release:
 	git tag $(NOW)-$(REL)
 	git push -v --tags
-	$(MAKE) shadow
+	$(MAKE) rust
 
 .PHONY: zip
 zip:

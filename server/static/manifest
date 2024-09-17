@@ -1,0 +1,16 @@
+{
+    "name": "CAD/2D",
+    "short_name": "CAD",
+    "description": "tiny portable CAD in Rust",
+    "icons": [
+        {
+            "src":"/logo.png",
+            "sizes": "64x64",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#222222",
+    "background_color": "#222222",
+    "display": "standalone",
+    "start_url": "."
+}

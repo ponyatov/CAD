@@ -74,3 +74,8 @@ fn get_js(_request: &mut Request) -> IronResult<Response> {
     response.set_mut(js);
     Ok(response)
 }
+
+#[test]
+fn port() {
+    assert_eq!(config::server::port, 12345);
+}

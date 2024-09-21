@@ -12,14 +12,10 @@ pub mod gui {
 }
 
 #[test]
-pub fn vga() {
-    assert!(gui::W > 320);
-    assert!(gui::H > 240);
+fn vga() {
+    assert!(gui::W > 240);
+    assert!(gui::H > 320);
 }
-
-// #[cfg(test)]
-// pub mod test {
-// }
 
 pub mod server {
     use const_format::formatcp;

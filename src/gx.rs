@@ -12,10 +12,8 @@ pub struct RGB {
 }
 
 #[test]
-pub fn rgb_size() {
-    let sz = core::mem::size_of::<RGB>();
-    eprintln!("RGB:{:?}", sz);
-    assert_eq!(3, sz);
+fn rgb_size() {
+    assert_eq!(3, core::mem::size_of::<RGB>());
 }
 
 /// TrueColor 24 bit + alpha channel
@@ -24,6 +22,11 @@ pub struct RGBA {
     g: u8,
     b: u8,
     a: u8,
+}
+
+#[test]
+fn rgba_size() {
+    assert_eq!(4, core::mem::size_of::<RGBA>());
 }
 
 pub enum Color {

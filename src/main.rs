@@ -10,7 +10,11 @@ mod gx;
 /// program entry point
 /// * `argv` command line arguments
 fn main() {
+    // logging
+    // std::env::set_var("RUST_LOG", "debug");
     env_logger::init();
+    log::info!(std::stringify!(main));
+
     let argv: Vec<String> = std::env::args().collect();
     arg(0, &argv[0]);
     for (k, v) in argv.into_iter().enumerate().skip(1) {

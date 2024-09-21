@@ -1,5 +1,5 @@
 /// low-level GUI subsystem
 
 pub fn init() {
-    log::info!("gui.init");
+    log::info!(std::stringify!(init));
 }

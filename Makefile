@@ -37,7 +37,7 @@ J += $(wildcard server/static/*.js)
 all: $(R)
 	$(CARGO) build
 run: lib/$(MODULE).ini $(R)
-	$(CARGO) run -- $<
+	RUST_LOG=debug $(CARGO) run -- $<
 
 .PHONY: server
 server: $(R)

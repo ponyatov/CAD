@@ -11,12 +11,17 @@ pub mod gui {
     pub const W: u16 = QVGA.1;
     /// screen height, pixels
     pub const H: u16 = QVGA.0;
-}
 
-#[test]
-fn vga() {
-    assert!(gui::W >= 240);
-    assert!(gui::H >= 320);
+    #[test]
+    fn vga() {
+        assert!(W >= 240);
+        assert!(H >= 320);
+    }
+
+    #[test]
+    fn portrait() {
+        assert!(W < H);
+    }
 }
 
 pub mod server {
@@ -25,4 +30,9 @@ pub mod server {
     pub const ip: &str = "localhost";
     pub const port: u16 = 12345;
     pub const url: &str = formatcp!("{ip}:{port}");
+
+    #[test]
+    fn localhost() {
+        assert_eq!(url, "localhost:12345");
+    }
 }

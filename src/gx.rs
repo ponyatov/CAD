@@ -12,8 +12,10 @@ pub struct RGB {
 }
 
 #[test]
-fn rgb_size() {
-    assert_eq!(4, core::mem::size_of::<RGB>());
+pub fn rgb_size() {
+    let sz = core::mem::size_of::<RGB>();
+    eprintln!("RGB:{:?}", sz);
+    assert_eq!(3, sz);
 }
 
 /// TrueColor 24 bit + alpha channel

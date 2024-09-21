@@ -39,7 +39,7 @@ all: $(R)
 run: lib/$(MODULE).ini $(R)
 	RUST_LOG=debug $(CARGO) run -- $<
 tests: $(R)
-	$(CARGO) test
+	$(CARGO) test --all
 
 .PHONY: server
 server: $(R)

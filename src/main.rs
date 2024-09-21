@@ -1,6 +1,8 @@
+#![allow(non_upper_case_globals)]
 #![allow(unused_imports)]
 #![allow(dead_code)]
 
+extern crate config;
 mod gui;
 mod gx;
 

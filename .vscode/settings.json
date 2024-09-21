@@ -62,4 +62,5 @@
         "editor.defaultFormatter": "rust-lang.rust-analyzer",
         "editor.formatOnSave": true
     },
+    "rustTestExplorer.logpanel": false,
 }

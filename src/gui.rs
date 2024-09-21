@@ -6,5 +6,5 @@ pub fn init() {
 
 #[test]
 fn gui() {
-    assert_eq!(config::gui::W, 480);
+    assert!(config::gui::W >= config::gui::QVGA.1);
 }

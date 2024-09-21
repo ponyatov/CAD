@@ -14,7 +14,7 @@
         "foxundermoon.shell-format",
         // misc
         "usernamehw.errorlens",
-        // "hbenl.vscode-test-explorer",
+        "hbenl.vscode-test-explorer",
         // C++
         "ms-vscode.cpptools",
         "jeff-hykin.better-cpp-syntax",
@@ -23,9 +23,10 @@
         "daohong-emilio.yash",
         "rreverser.ragel",
         // Rust
-        "rust-lang.rust-analyzer",
+        "swellaby.vscode-rust-test-adapter",
         "statiolake.vscode-rustfmt",
         "tamasfe.even-better-toml",
+        "rust-lang.rust-analyzer",
         "vadimcn.vscode-lldb",
     ]
 }

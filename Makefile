@@ -33,11 +33,13 @@ H += $(wildcard inc/*.h*)
 J += $(wildcard server/static/*.js)
 
 # all
-.PHONY: run all
+.PHONY: run all tests
 all: $(R)
 	$(CARGO) build
 run: lib/$(MODULE).ini $(R)
 	RUST_LOG=debug $(CARGO) run -- $<
+tests: $(R)
+	$(CARGO) test
 
 .PHONY: server
 server: $(R)

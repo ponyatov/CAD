@@ -77,7 +77,6 @@ update: $(RUSTUP)
 	sudo apt update
 	sudo apt install -uy `cat apt.txt`
 	$(RUSTUP) self update ; $(RUSTUP) update stable
-ref:
 gz:  cdn
 
 .PHONY: rust
@@ -95,6 +94,13 @@ cdn: \
 	server/static/cdn/jquery.min.js
 server/static/cdn/jquery.min.js:
 	$(CURL) $@ $(CDNJS)/jquery/$(JQUERY_VER)/jquery.min.js
+
+# ref
+ref: \
+	ref/lvgl/README.md
+
+ref/lvgl/README.md:
+	$(GITREF) -b release/v5 https://github.com/lvgl/lvgl.git ref/lvgl
 
 # merge
 MERGE += Makefile README.md apt.txt LICENSE

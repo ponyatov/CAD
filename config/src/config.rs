@@ -6,6 +6,7 @@ pub mod gui {
     pub const VGA13: (u16, u16) = (320, 200);
     pub const QVGA: (u16, u16) = (320, 240);
     pub const VGA16: (u16, u16) = (640, 480);
+    pub const ZX48: (u16, u16) = (256, 192);
 
     /// screen width, pixels
     pub const W: u16 = QVGA.1;

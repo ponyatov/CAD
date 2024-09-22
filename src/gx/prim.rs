@@ -15,10 +15,17 @@ pub struct Line {
     a: Point,
     b: Point,
     color: color::Color,
+    visible: bool,
 }
 
 pub struct Poly {
     v: Vec<Line>,
-    fill: Option<color::Color>,
     closed: bool,
+    visible: bool,
+}
+
+pub struct Area {
+    p: Poly,
+    fill: Option<color::Color>,
+    visible: bool,
 }

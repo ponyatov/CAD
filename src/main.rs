@@ -20,11 +20,11 @@ fn main() {
 
     let argv: Vec<String> = std::env::args().collect();
     arg(0, &argv[0]);
-    for (k, v) in argv.into_iter().enumerate().skip(1) {
+    for (k, v) in argv.clone().into_iter().enumerate().skip(1) {
         arg(k, &v);
     }
     gx::init();
-    gui::init();
+    gui::init(&argv[0]);
 }
 
 /// dump single command line argument

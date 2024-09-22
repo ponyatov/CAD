@@ -5,11 +5,7 @@ pub fn init() {
 }
 
 /// classical TrueColor 24bit
-pub struct RGB {
-    r: u8,
-    g: u8,
-    b: u8,
-}
+pub struct RGB(pub u8, pub u8, pub u8);
 
 #[test]
 fn rgb_size() {
@@ -17,12 +13,7 @@ fn rgb_size() {
 }
 
 /// TrueColor 24 bit + alpha channel
-pub struct RGBA {
-    r: u8,
-    g: u8,
-    b: u8,
-    a: u8,
-}
+pub struct RGBA(pub u8, pub u8, pub u8, pub u8);
 
 #[test]
 fn rgba_size() {

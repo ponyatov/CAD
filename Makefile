@@ -26,6 +26,8 @@ GITREF = git clone --depth 1
 
 # src
 R += $(wildcard src/*.rs)
+R += $(wildcard src/gui/*.rs)
+R += $(wildcard src/gx/*.rs)
 R += $(wildcard config/src/*.rs)
 R += $(wildcard server/src/*.rs)
 C += $(wildcard src/*.c*)

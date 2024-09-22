@@ -1,13 +1,14 @@
 #![allow(unused_variables)]
 #![allow(unused_mut)]
-
+/// application configuration
+/// low-level GUI subsystem
 extern crate config;
 extern crate log;
 
-/// application configuration
-/// low-level GUI subsystem
 extern crate sdl2;
 use sdl2::Sdl;
+
+mod theme;
 
 pub fn init(title: &str) {
     log::info!(std::stringify!(init));
@@ -25,12 +26,10 @@ fn gui() {
 fn mainloop(title: &str) -> Result<(), String> {
     let sdl_context = sdl2::init()?;
     let video_subsystem = sdl_context.video()?;
+    let width = config::gui::W as u32;
+    let height = config::gui::H as u32;
     let window = video_subsystem //
-        .window(
-            &title, //
-            config::gui::W as u32,
-            config::gui::H as u32,
-        )
+        .window(&title, width, height)
         // .position_centered()
         .build()
         .map_err(|e| e.to_string())?;
@@ -38,5 +37,7 @@ fn mainloop(title: &str) -> Result<(), String> {
         .into_canvas() //
         .build()
         .map_err(|e| e.to_string())?;
+
+    canvas.set_draw_color(theme::background);
     return Ok(());
 }

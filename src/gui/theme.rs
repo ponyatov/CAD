@@ -1,4 +1,4 @@
-use crate::gx::{RGB, RGBA};
+use crate::gx::color::{RGB, RGBA};
 use sdl2::pixels::Color;
 
 impl From<RGB> for sdl2::pixels::Color {

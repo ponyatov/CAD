@@ -20,6 +20,7 @@ members = ["config", "server"]
 [dev-dependencies]
 
 [target.'cfg(unix)'.dependencies]
+sdl2 = "0.37.0"
 
 [target.'cfg(target_arch = "wasm32")'.dependencies]
 wasm-bindgen = "0.2"

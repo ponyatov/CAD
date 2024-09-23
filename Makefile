@@ -123,6 +123,12 @@ shadow:
 	git checkout $@
 	git pull -v
 
+.PHONY: rust
+rust:
+	git push -v
+	git checkout $@
+	git pull -v
+
 .PHONY: release
 release:
 	git tag $(NOW)-$(REL)

@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct RGB(pub u8, pub u8, pub u8);
 
 #[test]
@@ -6,6 +7,7 @@ fn rgb_size() {
 }
 
 /// TrueColor 24 bit + alpha channel
+#[derive(Debug)]
 pub struct RGBA(pub u8, pub u8, pub u8, pub u8);
 
 #[test]
@@ -13,6 +15,7 @@ fn rgba_size() {
     assert_eq!(4, core::mem::size_of::<RGBA>());
 }
 
+#[derive(Debug)]
 pub enum Color {
     RGB,
     RGBA,

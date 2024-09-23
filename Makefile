@@ -107,13 +107,16 @@ server/static/cdn/jquery.min.js:
 # ref
 ref: \
 	ref/lvgl/README.md \
-	ref/micromath/README.md
+	ref/micromath/README.md ref/vector2math/README.md
 
 ref/lvgl/README.md:
 	$(GITREF) -b release/v5 https://github.com/lvgl/lvgl.git ref/lvgl
 
 ref/micromath/README.md:
 	$(GITREF) https://github.com/tarcieri/micromath.git ref/micromath
+
+ref/vector2math/README.md:
+	$(GITREF) https://github.com/kaikalii/vector2math.git ref/vector2math
 
 # merge
 MERGE += Makefile README.md apt.txt LICENSE

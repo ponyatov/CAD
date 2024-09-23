@@ -1,24 +1,32 @@
 {
-	"recommendations": [
-		"ryuta46.multi-command",
-		"stkb.rewrap",
-		"tabnine.tabnine-vscode",
-		"ms-vscode.makefile-tools",
-		// formatters
-		"xaver.clang-format",
-		"foxundermoon.shell-format",
-		// misc
-		// "hbenl.vscode-test-explorer",
-		// "usernamehw.errorlens",
-		// "ms-vscode-remote.remote-ssh",
-		// "ms-azuretools.vscode-docker",
+    "recommendations": [
+        "stkb.rewrap",
+        "ryuta46.multi-command",
+        "tabnine.tabnine-vscode",
+        "ms-vscode.makefile-tools",
+        // Linux
+        "foxundermoon.shell-format",
+        "ms-vscode-remote.remote-ssh",
+        "coolbear.systemd-unit-file",
+        // "ms-azuretools.vscode-docker",
+        // formatters
+        "xaver.clang-format",
+        "foxundermoon.shell-format",
+        // misc
+        "usernamehw.errorlens",
+        "hbenl.vscode-test-explorer",
         // C++
         "ms-vscode.cpptools",
         "jeff-hykin.better-cpp-syntax",
-        "ms-vscode.cmake-tools",
-        // flex/bison
+        // "ms-vscode.cmake-tools",
+        // parser
         "daohong-emilio.yash",
-		// Qt
-		"tonka3000.qtvsctools",
+        "rreverser.ragel",
+        // Rust
+        "swellaby.vscode-rust-test-adapter",
+        "statiolake.vscode-rustfmt",
+        "tamasfe.even-better-toml",
+        "rust-lang.rust-analyzer",
+        "vadimcn.vscode-lldb",
     ]
 }

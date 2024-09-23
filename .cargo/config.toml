@@ -1,0 +1,31 @@
+[future-incompat-report]
+frequency = "never"
+
+[target.x86_64-unknown-linux-gnu]
+# runner = "uxterm -e"
+
+[build]
+target = "x86_64-unknown-linux-gnu"
+
+# https://t.me/rustlang_ru/651766
+# debug build for target executable
+[profile.dev]
+opt-level = 1 # basic optimization to inline iterators and getters
+strip = "debuginfo" # strip debug nonsense since debuggers are overrated, remove this to actually do debugging
+
+# debug builds for deps 
+[profile.dev.package."*"]
+opt-level = 3 # enable full optimization within dependencies - I do not expect to debug my deps
+strip = "debuginfo" # strip debug symbols as they are useless with O3 anyway
+
+# debug builds for procmacros
+[profile.dev.build-override]
+opt-level = 2 # reasonable optimization
+codegen-units = 256 # max threading
+#debug = false # when possible - this is generally scary as some procmacros will fail without any feedback
+
+# release build for procmacros - same config as debug build for procmacros
+[profile.release.build-override]
+opt-level = 2
+codegen-units = 256
+debug = false # when possible

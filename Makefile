@@ -1,89 +1,121 @@
 # var
-MODULE  = $(notdir $(CURDIR))
-module  = $(shell echo $(MODULE) | tr A-Z a-z)
-OS      = $(shell uname -o|tr / _)
-NOW     = $(shell date +%d%m%y)
-REL     = $(shell git rev-parse --short=4 HEAD)
-BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
-CORES  ?= $(shell grep processor /proc/cpuinfo | wc -l)
+MODULE = $(notdir $(CURDIR))
+REL    = $(shell git rev-parse --short=4    HEAD)
+BRANCH = $(shell git rev-parse --abbrev-ref HEAD)
+NOW    = $(shell date +%d%m%y)
 
-# dirs
-CWD = $(CURDIR)
-BIN = $(CWD)/bin
-DOC = $(CWD)/doc
-SRC = $(CWD)/src
-TMP = $(CWD)/tmp
+# version
+JQUERY_VER = 3.7.1
+
+# cross
+TARGET = wasm32-unknown-unkown
+
+# dir
+CWD   = $(CURDIR)
+TMP   = $(CWD)/tmp
+CAR   = $(HOME)/.cargo/bin
+REF   = $(CWD)/ref
+GZ    = $(HOME)/gz
 
 # tool
 CURL   = curl -L -o
-CF     = clang-format
+CF     = clang-format -style=file -i
+RUSTUP = $(CAR)/rustup
+CARGO  = $(CAR)/cargo
+GITREF = git clone --depth 1
 
 # src
-C  += src/$(MODULE).cpp
-H  += inc/$(MODULE).hpp
-S  += src/$(MODULE).lex src/$(MODULE).yacc
-S  += $(C) $(H) CMakeLists.txt
-# CP += tmp/$(MODULE).parser.cpp tmp/$(MODULE).lexer.cpp
-# HP += tmp/$(MODULE).parser.hpp
-F  += lib/$(MODULE).ini
-S  += $(F)
+R += $(wildcard src/*.rs)
+R += $(wildcard src/gui/*.rs)
+R += $(wildcard src/gx/*.rs)
+R += $(wildcard config/src/*.rs)
+R += $(wildcard server/src/*.rs)
+C += $(wildcard src/*.c*)
+H += $(wildcard inc/*.h*)
+J += $(wildcard server/static/*.js)
 
 # all
-.PHONY: all
-all: bin/$(MODULE) $(F)
-	$^
+.PHONY: run all tests
+all: $(R)
+	$(CARGO) build
+run: lib/$(MODULE).ini $(R)
+	RUST_LOG=debug $(CARGO) run -- $<
+tests: $(R)
+	$(CARGO) test --all
+
+.PHONY: server
+server: $(R)
+	$(CARGO) run -p $@
 
 # format
 .PHONY: format
-format: tmp/format_cpp
-tmp/format_cpp: $(C) $(H)
-	$(CF) -style=file -i $? && touch $@
+format: tmp/format_rs tmp/format_js
+tmp/format_rs: $(R)
+	$(CARGO) check --workspace && $(CARGO) fmt && touch $@
+tmp/format_js: $(J)
+	$(CF) $? && touch $@
 
 # rule
-bin/$(MODULE): $(S) $(CP) $(CH) Makefile
-	cmake -S $(CWD) -B $(TMP)/$(MODULE) -DAPP=$(MODULE)
-	$(MAKE) -C $(TMP)/$(MODULE)
-tmp/$(MODULE).parser.cpp: src/$(MODULE).yacc
-	bison -o $@ $<
-tmp/$(MODULE).lexer.cpp: src/$(MODULE).lex
-	flex -o $@ $<
+
+# doc
+.PHONY: doc
+doc: doc/The_Rust_Programming_Language.pdf
+
+doc/The_Rust_Programming_Language.pdf: $(HOME)/doc/Rust/The_Rust_Programming_Language.pdf
+	cd doc ; ln -fs ../../doc/Rust/The_Rust_Programming_Language.pdf The_Rust_Programming_Language.pdf
+$(HOME)/doc/Rust/The_Rust_Programming_Language.pdf:
+	$(CURL) $@ https://www.scs.stanford.edu/~zyedidia/docs/rust/rust_book.pdf
+
+.PHONY: doxy
+doxy: $(R)
+	$(CARGO) doc --no-deps --document-private-items \
+					--workspace --target-dir docs
 
 # install
-.PHONY: install update updev
-install: $(OS)_install doc gz
-	$(MAKE) update
-update:  $(OS)_update
-updev:   update $(OS)_updev
-
-.PHONY: GNU_Linux_install GNU_Linux_update GNU_Linux_updev
-GNU_Linux_install:
-GNU_Linux_update:
-ifneq (,$(shell which apt))
+.PHONY: install update ref gz
+install: doc ref gz $(RUSTUP)
+	$(MAKE) rust update
+update: $(RUSTUP)
 	sudo apt update
-	sudo apt install -u `cat apt.txt`
-endif
-# Debian 10
-ifeq ($(shell lsb_release -cs),buster)
-#	sudo apt install -t buster-backports kicad
-endif
-GNU_Linux_updev:
-	sudo apt install -yu `cat apt.dev`
+	sudo apt install -uy `cat apt.txt`
+	$(RUSTUP) self update ; $(RUSTUP) update stable
+gz:  cdn
 
-.PHONY: vscode
-vscode: ~/.vscode/extensions/forth
-~/.vscode/extensions/forth:
-	ln -fs ~/CAD/.vscode $@
+.PHONY: rust
+rust: $(RUSTUP)
+	$(RUSTUP) component add rustfmt
+	$(CARGO)  install wasm-bindgen-cli
+	$(RUSTUP) target add $(TARGET)
+$(RUSTUP):
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# cdn
+CDNJS = https://cdnjs.cloudflare.com/ajax/libs
+.PHONY: cdn
+cdn: \
+	server/static/cdn/jquery.min.js
+server/static/cdn/jquery.min.js:
+	$(CURL) $@ $(CDNJS)/jquery/$(JQUERY_VER)/jquery.min.js
+
+# ref
+ref: \
+	ref/lvgl/README.md
+
+ref/lvgl/README.md:
+	$(GITREF) -b release/v5 https://github.com/lvgl/lvgl.git ref/lvgl
 
 # merge
-MERGE += README.md Makefile .gitignore apt.txt apt.dev LICENSE $(S)
-MERGE += .vscode bin doc inc src tmp
+MERGE += Makefile README.md apt.txt LICENSE
+MERGE += .clang-format .doxygen .gitignore
+MERGE += .vscode bin doc img lib inc src tmp ref
+MERGE += .cargo Cargo.* *.toml
 
 .PHONY: dev
 dev:
 	git push -v
 	git checkout $@
 	git pull -v
-	git checkout shadow -- $(MERGE)
+	git checkout rust -- $(MERGE)
 
 .PHONY: shadow
 shadow:
@@ -91,11 +123,17 @@ shadow:
 	git checkout $@
 	git pull -v
 
+.PHONY: rust
+rust:
+	git push -v
+	git checkout $@
+	git pull -v
+
 .PHONY: release
 release:
 	git tag $(NOW)-$(REL)
-	git push -v && git push -v --tags
-	$(MAKE) shadow
+	git push -v --tags
+	$(MAKE) rust
 
 .PHONY: zip
 zip:

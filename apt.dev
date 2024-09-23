@@ -1,4 +1,0 @@
-code meld doxygen clang-format
-g++ gdb flex bison
-libreadline-dev
-qt5-default

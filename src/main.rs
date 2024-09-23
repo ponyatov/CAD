@@ -2,14 +2,11 @@
 #![allow(unused_imports)]
 #![allow(dead_code)]
 
+#[doc = include_str!("../README.md")]
+//
 extern crate config;
 mod gui;
 mod gx;
-// mod theme;
-
-// #[macro_use]
-// extern crate log;
-// extern crate env_logger;
 
 /// program entry point
 /// * `argv` command line arguments

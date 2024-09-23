@@ -6,3 +6,4 @@ pub fn init() {
 
 pub mod color;
 pub mod prim;
+pub mod vector;

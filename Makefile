@@ -59,12 +59,19 @@ tmp/format_js: $(J)
 
 # doc
 .PHONY: doc
-doc: doc/The_Rust_Programming_Language.pdf
+doc: \
+	$(HOME)/doc/Rust/The_Rust_Programming_Language.pdf \
+	$(HOME)/doc/CAD/IGS_ru.pdf \
+	$(HOME)/doc/CAD/Fundamentals-of-Computer-Graphics-Fourth-Edition.pdf
 
-doc/The_Rust_Programming_Language.pdf: $(HOME)/doc/Rust/The_Rust_Programming_Language.pdf
-	cd doc ; ln -fs ../../doc/Rust/The_Rust_Programming_Language.pdf The_Rust_Programming_Language.pdf
 $(HOME)/doc/Rust/The_Rust_Programming_Language.pdf:
 	$(CURL) $@ https://www.scs.stanford.edu/~zyedidia/docs/rust/rust_book.pdf
+$(HOME)/doc/CAD/IGS_ru.pdf:
+	$(CURL) $@ https://github.com/ponyatov/CAD/releases/download/230924-01f4/IGS_ru.pdf
+$(HOME)/doc/CAD/Fundamentals-of-Computer-Graphics-Fourth-Edition.pdf:
+	$(CURL) $@ https://github.com/ponyatov/CAD/releases/download/230924-01f4/Fundamentals-of-Computer-Graphics-Fourth-Edition.pdf
+# http://repo.darmajaya.ac.id/5422/1/Fundamentals%20of%20Computer%20Graphics%2C%20Fourth%20Edition%20%28%20PDFDrive%20%29.pdf
+
 
 .PHONY: doxy
 doxy: $(R)
